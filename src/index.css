@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+.font-serif-wedding {
+  font-family: 'Cinzel', Georgia, serif;
+}
+
+.font-display-wedding {
+  font-family: 'Rozha One', 'Cinzel', serif;
+}
+
+/* Custom wedding patterned background texture */
+.bg-mandala-pattern {
+  background-color: #FAF7F2;
+  background-image: radial-gradient(#D4AF37 0.75px, transparent 0.75px), radial-gradient(#8B1D2C 0.5px, #FAF7F2 0.5px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+  background-opacity: 0.05;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f7f2ea;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4a373;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8b1d2c;
+}

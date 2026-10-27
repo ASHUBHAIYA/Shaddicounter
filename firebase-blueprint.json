@@ -1,0 +1,54 @@
+{
+  "entities": {
+    "Wedding": {
+      "title": "Wedding",
+      "description": "Configuration and metadata for the wedding event",
+      "type": "object",
+      "properties": {
+        "groomName": { "type": "string", "maxLength": 100 },
+        "brideName": { "type": "string", "maxLength": 100 },
+        "weddingDate": { "type": "string", "maxLength": 100 },
+        "venueName": { "type": "string", "maxLength": 200 },
+        "venueAddress": { "type": "string", "maxLength": 300 },
+        "plateCost": { "type": "number" },
+        "bufferPercent": { "type": "number" },
+        "hostPhone": { "type": "string", "maxLength": 30 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["groomName", "brideName", "weddingDate", "plateCost", "bufferPercent"]
+    },
+    "Guest": {
+      "title": "Guest",
+      "description": "An invited wedding guest or family and their RSVP attendance details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "side": { "type": "string", "enum": ["Groom", "Bride", "Common"] },
+        "relation": { "type": "string", "maxLength": 150 },
+        "status": { "type": "string", "enum": ["confirmed", "declined", "tentative", "pending"] },
+        "adults": { "type": "number" },
+        "kids": { "type": "number" },
+        "vegPax": { "type": "number" },
+        "nonVegPax": { "type": "number" },
+        "arrivalTimeSlot": { "type": "string", "maxLength": 100 },
+        "note": { "type": "string", "maxLength": 500 },
+        "reminderSentCount": { "type": "number" },
+        "lastReminderAt": { "type": "string", "maxLength": 100 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "status", "adults", "kids"]
+    }
+  },
+  "firestore": {
+    "/weddings/{weddingId}": {
+      "schema": { "$ref": "#/entities/Wedding" },
+      "description": "Primary wedding document holding event dates and catering settings"
+    },
+    "/weddings/{weddingId}/guests/{guestId}": {
+      "schema": { "$ref": "#/entities/Guest" },
+      "description": "Subcollection of guest RSVPs for a given wedding"
+    }
+  }
+}

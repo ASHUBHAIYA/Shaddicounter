@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function isValidWedding(data) {
+      return data.groomName is string && data.groomName.size() <= 100 &&
+             data.brideName is string && data.brideName.size() <= 100 &&
+             data.weddingDate is string && data.weddingDate.size() <= 100 &&
+             data.plateCost is number && data.plateCost >= 0 &&
+             data.bufferPercent is number && data.bufferPercent >= 0 && data.bufferPercent <= 100;
+    }
+
+    function isValidGuest(data) {
+      return data.name is string && data.name.size() <= 150 &&
+             data.status in ['confirmed', 'declined', 'tentative', 'pending'] &&
+             data.adults is number && data.adults >= 0 &&
+             data.kids is number && data.kids >= 0;
+    }
+
+    // Wedding settings & metadata
+    match /weddings/{weddingId} {
+      allow get: if isValidId(weddingId);
+      allow list: if true;
+      allow write: if isValidId(weddingId) && isValidWedding(incoming());
+
+      // Guest RSVPs subcollection
+      match /guests/{guestId} {
+        allow get: if isValidId(guestId);
+        allow list: if true;
+        allow create, update: if isValidId(guestId) && isValidGuest(incoming());
+        allow delete: if isValidId(guestId);
+      }
+    }
+  }
+}

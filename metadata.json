@@ -1,0 +1,8 @@
+{
+  "name": "ShaadiCount - RSVP & Catering Wastage Reduction",
+  "description": "Smart RSVP, dietary breakdown, peak arrival planning, and catering food wastage reduction tool for Indian weddings.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
